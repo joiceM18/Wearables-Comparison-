@@ -1,21 +1,20 @@
 ## import libraries 
-import pandas as pd 
-import pytz
+    import pandas as pd 
+    import pytz
 
 ## function to load dataset and standardize column name 
 
-def extract_device_data(device_name, time_ranges, output_file):
-    # Load datasets
-    oura_df = pd.read_csv('oura.csv', parse_dates=['timestamp'])
+    def extract_device_data(device_name, time_ranges, output_file):
+        oura_df = pd.read_csv('oura.csv', parse_dates=['timestamp'])
     
 
-    # Standardize column names
+## Standardize column names
     oura_df.rename(columns={'timestamp': 'Timestamp'}, inplace=True)
     for df in [oura_df]:
         df['Timestamp'] = pd.to_datetime(df['Timestamp'], utc=True)
         df['Timestamp'] = df['Timestamp'].dt.tz_convert('US/Central')
 
-    # Set Timestamp as index
+## Set Timestamp as index
     oura_df.set_index('Timestamp', inplace=True)
 
     # Dictionary mapping device names to their corresponding data and column name

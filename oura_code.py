@@ -1,20 +1,18 @@
-## import libraries 
-    import pandas as pd 
-    import pytz
+import pandas as pd 
+import pytz
 
-## function to load dataset and standardize column name 
-
-    def extract_device_data(device_name, time_ranges, output_file):
-        oura_df = pd.read_csv('oura.csv', parse_dates=['timestamp'])
+# Function to load dataset and standardize column name 
+def extract_device_data(device_name, time_ranges, output_file):
+    oura_df = pd.read_csv('oura.csv', parse_dates=['timestamp'])
     
-
-## Standardize column names
+    # Standardize column names
     oura_df.rename(columns={'timestamp': 'Timestamp'}, inplace=True)
+    
     for df in [oura_df]:
         df['Timestamp'] = pd.to_datetime(df['Timestamp'], utc=True)
         df['Timestamp'] = df['Timestamp'].dt.tz_convert('US/Central')
 
-## Set Timestamp as index
+    # Set Timestamp as index
     oura_df.set_index('Timestamp', inplace=True)
 
     # Dictionary mapping device names to their corresponding data and column name
@@ -28,9 +26,7 @@
 
     df, col_name = devices[device_name]
 
-   ## resample stats to be captured every 3 mins 
-    
-    # Resample and compute statistics (keeping the timezone info intact)
+    # Resample stats to be captured every 3 minutes
     df_resampled = df.resample('3min').agg({col_name: ['mean', 'max', 'min', 'std', 'count']})
     df_resampled.columns = ['mean', 'max', 'min', 'std', 'count']
 
@@ -38,7 +34,7 @@
     time_ranges = [(pd.Timestamp(start).tz_localize('US/Central'),
                     pd.Timestamp(end).tz_localize('US/Central')) for start, end in time_ranges]
 
- ## Collect filtered data for multiple time ranges
+    # Collect filtered data for multiple time ranges
     results = []
     for start_time, end_time in time_ranges:
         filtered_data = df_resampled.loc[start_time:end_time].reset_index()
@@ -46,7 +42,7 @@
         filtered_data['Time'] = filtered_data['Timestamp'].dt.strftime('%H:%M:%S')
         results.append(filtered_data)
 
-## Concatenate all results
+    # Concatenate all results
     if results:
         final_data = pd.concat(results, ignore_index=True)
         final_data = final_data[['Date', 'Time', 'mean', 'max', 'min', 'std', 'count']]
@@ -56,8 +52,8 @@
         print("No data found in the specified time ranges.")
 
 # Example usage
-    device = 'oura'  # Change to 'mz3' or 'empatica' as needed
-    time_ranges = [
+device = 'oura'  # Change to 'mz3' or 'empatica' as needed
+time_ranges = [
     ('2024-01-22 04:00:00', '2024-01-22 04:30:00'),
     ('2024-01-22 05:36:00', '2024-01-22 06:06:00'),
     ('2024-01-22 06:14:00', '2024-01-22 06:44:00'),

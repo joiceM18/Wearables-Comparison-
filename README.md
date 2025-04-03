@@ -9,7 +9,8 @@ there are a few files:
 
 2-processed empatica: takes in the entire processed csv file script that was created anf filters the actvities that participants have done, along wwith calculating mean, max and standard deviation per activity. 
 
-## 2
+### Oura Ring:
+1- The file named "oura_script" includes a script that takes in the raw oura data in a csv file and filters the activity time slots, and also converts timestamps to central time, based on participant's location. the script outputs the filtered csv file with activites, min bpm, max bpm, and stnadard deviation. 
 
 # 1
 

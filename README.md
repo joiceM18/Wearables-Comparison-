@@ -15,5 +15,5 @@ there are a few files:
 ### My Zone activity:
 -The file named "mz3_script" includes a script that imports the raw csv file for mz3 device. the raw data includes local time as there are no indicators of any unique timezone. therefore, the script ensures that local timezone is in central time, just as the participants location. 
 
-### Data Analysis
+### Data Analysis:
 - The file name called "data_analysis" includes a script that imports the three processed files we worked on, above^ and performs a few statistical tests and a few conclusions. the script first compares all csv files togther and withthin each activity, summary statistics are calulcate and outputted. conclusions are made by calculating ks test and p-value as well. 

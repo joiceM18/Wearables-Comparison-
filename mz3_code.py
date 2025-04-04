@@ -1,54 +1,58 @@
-## Import libraries 
-import pandas as pd 
+import pandas as pd
 import pytz
 
-## Function to load dataset and standardize column name 
+# Function to load dataset and standardize column name
 def extract_device_data(device_name, time_ranges, output_file):
     # Load the MZ3 CSV file
     mz3_df = pd.read_csv('mz3.csv', parse_dates=['Time'])
-    
-    # Standardize column names: rename 'Time' to 'Timestamp'
+
+    # Rename 'Time' column to 'Timestamp'
     mz3_df.rename(columns={'Time': 'Timestamp'}, inplace=True)
-    
-    # Convert Timestamp to datetime and localize to US/Central
+
+    # Assume timestamps are already in local time and localize them to US/Central
     mz3_df['Timestamp'] = pd.to_datetime(mz3_df['Timestamp'])
-    mz3_df['Timestamp'] = mz3_df['Timestamp'].dt.tz_localize('UTC').dt.tz_convert('US/Central')
-    
+    mz3_df['Timestamp'] = mz3_df['Timestamp'].dt.tz_localize('US/Central')  # NOT converting, just assigning
+
     # Set Timestamp as index
     mz3_df.set_index('Timestamp', inplace=True)
-    
-    # Dictionary mapping device names to their corresponding dataframe and data column.
+
+    # Device mapping
     devices = {
         'mz3': (mz3_df, 'hr')
     }
-    
+
     if device_name not in devices:
-        print("Invalid device name. Choose from: mz3")  
+        print("Invalid device name. Choose from: mz3")
         return
 
     df, col_name = devices[device_name]
 
-    # Resample and compute statistics in 3-minute bins
+    # Resample in 3-minute bins and compute stats
     df_resampled = df.resample('3min').agg({col_name: ['mean', 'max', 'min', 'std', 'count']})
     df_resampled.columns = ['mean', 'max', 'min', 'std', 'count']
-    
-    # Convert time_ranges to timezone-aware timestamps in US/Central
-    time_ranges = [(pd.Timestamp(start).tz_localize('US/Central'),
-                    pd.Timestamp(end).tz_localize('US/Central')) for start, end in time_ranges]
 
-    # Collect filtered data for multiple time ranges
+    # Localize time ranges to US/Central
+    time_ranges = [
+        (pd.Timestamp(start).tz_localize('US/Central'),
+         pd.Timestamp(end).tz_localize('US/Central'),
+         label)
+        for start, end, label in time_ranges
+    ]
+
+    # Filter and collect data by time range
     results = []
-    for start_time, end_time in time_ranges:
+    for start_time, end_time, label in time_ranges:
         filtered_data = df_resampled.loc[start_time:end_time].reset_index()
         if not filtered_data.empty:
             filtered_data['Date'] = filtered_data['Timestamp'].dt.strftime('%m/%d/%Y')
             filtered_data['Time'] = filtered_data['Timestamp'].dt.strftime('%H:%M:%S')
+            filtered_data['activity'] = label
             results.append(filtered_data)
 
-    # Concatenate all results and save to CSV if any data was found
+    # Save if data exists
     if results:
         final_data = pd.concat(results, ignore_index=True)
-        final_data = final_data[['Date', 'Time', 'mean', 'max', 'min', 'std', 'count']]
+        final_data = final_data[['Date', 'Time', 'activity', 'mean', 'max', 'min', 'std', 'count']]
         final_data.to_csv(output_file, index=False)
         print(f"Extracted data saved to {output_file}")
     else:
@@ -57,16 +61,16 @@ def extract_device_data(device_name, time_ranges, output_file):
 # Example usage
 device = 'mz3'
 time_ranges = [
-    ('2024-01-22 04:00:00', '2024-01-22 04:30:00'),
-    ('2024-01-22 05:36:00', '2024-01-22 06:06:00'),
-    ('2024-01-22 06:14:00', '2024-01-22 06:44:00'),
-    ('2024-01-22 07:36:00', '2024-01-22 07:45:00'),
-    ('2024-01-22 08:07:00', '2024-01-22 08:37:00'),
-    ('2024-01-23 06:07:00', '2024-01-23 06:37:00'),
-    ('2024-01-23 11:30:00', '2024-01-23 12:00:00'),
-    ('2024-01-23 12:15:00', '2024-01-23 12:45:00'),
-    ('2024-01-23 17:30:00', '2024-01-23 18:00:00'),
-    ('2024-01-23 10:10:00', '2024-01-23 10:40:00')
+    ('2024-01-22 04:00:00', '2024-01-22 04:30:00', 'sleep'),
+    ('2024-01-22 05:36:00', '2024-01-22 06:06:00', 'rest'),
+    ('2024-01-22 06:14:00', '2024-01-22 06:44:00', 'exercise'),
+    ('2024-01-22 07:36:00', '2024-01-22 08:04:00', 'housework'),
+    ('2024-01-22 08:07:00', '2024-01-22 08:37:00', 'computer work'),
+    ('2024-01-23 06:07:00', '2024-01-23 06:37:00', 'rest'),
+    ('2024-01-23 11:30:00', '2024-01-23 12:00:00', 'housework'),
+    ('2024-01-23 12:15:00', '2024-01-23 12:45:00', 'computer work'),
+    ('2024-01-23 17:30:00', '2024-01-23 18:00:00', 'shopping'),
+    ('2024-01-23 10:10:00', '2024-01-23 10:40:00', 'exercise')
 ]
 output_file = 'output_mz3.csv'
 

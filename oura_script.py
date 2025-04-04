@@ -1,3 +1,4 @@
+
 import pandas as pd
 import pytz
 
@@ -31,8 +32,10 @@ def extract_device_data(device_name, time_ranges, output_file):
     df_resampled.columns = ['mean', 'max', 'min', 'std', 'count']
 
     # Convert time_ranges to timezone-aware timestamps in US/Central
-    time_ranges = [(pd.Timestamp(start).tz_localize('US/Central'),
-                    pd.Timestamp(end).tz_localize('US/Central'), label) for start, end, label in time_ranges]
+    time_ranges = [(
+    pd.Timestamp(start).tz_localize('UTC').tz_convert('US/Central'),
+    pd.Timestamp(end).tz_localize('UTC').tz_convert('US/Central'),
+    label) for start, end, label in time_ranges]
 
     # Collect filtered data for multiple time ranges
     results = []

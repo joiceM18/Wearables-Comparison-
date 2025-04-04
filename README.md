@@ -10,8 +10,10 @@ there are a few files:
 2-processed empatica: takes in the entire processed csv file script that was created anf filters the actvities that participants have done, along wwith calculating mean, max and standard deviation per activity. 
 
 ### Oura Ring:
-1- The file named "oura_script" includes a script that takes in the raw oura data in a csv file and filters the activity time slots, and also converts timestamps to central time, based on participant's location. the script outputs the filtered csv file with activites, min bpm, max bpm, and stnadard deviation. 
+- The file named "oura_script" includes a script that takes in the raw oura data in a csv file and filters the activity time slots, and also converts timestamps from UTC to central time, based on participant's location. we know that the timestamp in Oura was in UTC because the raw csv file entrees had 'Z' nect to the timestamp, and that is a clear indicator of the timezone. The script outputs the filtered csv file with activites, min bpm, max bpm, and stnadard deviation. 
 
-# 1
+### My Zone activity:
+-The file named "mz3_script" includes a script that imports the raw csv file for mz3 device. the raw data includes local time as there are no indicators of any unique timezone. therefore, the script ensures that local timezone is in central time, just as the participants location. 
 
-text
+### Data Analysis
+- The file name called "data_analysis" includes a script that imports the three processed files we worked on, above^ and performs a few statistical tests and a few conclusions. the script first compares all csv files togther and withthin each activity, summary statistics are calulcate and outputted. conclusions are made by calculating ks test and p-value as well. 

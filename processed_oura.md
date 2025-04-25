@@ -1,6 +1,6 @@
 
-import pandas as pd
-import pytz
+    import pandas as pd
+    import pytz
 
 ## Function to load dataset and standardize column name
     def extract_device_data(device_name, time_ranges, output_file):

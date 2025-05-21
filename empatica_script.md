@@ -5,7 +5,8 @@
 ## Function to load dataset and standardize column name
     def extract_device_data(device_name, time_ranges, output_file):
         # Load the Empatica CSV file
-        empatica_df = pd.read_csv('empatica.csv', parse_dates=['minute'])
+        path_name=("\\files.times.uh.edu\Labs\Grigorenko\Wearables Data Analysis\file paths for DA\empatica systolic peaks to min plots\systolic_peak_minute_counts.csv")
+        empatica_df = pd.read_csv('path_name', parse_dates=['minute'])
 
 ## Standardize column names: rename 'minute' to 'Timestamp'
         empatica_df.rename(columns={'minute': 'Timestamp'}, inplace=True)
@@ -69,6 +70,6 @@
         ('2024-01-23 17:30:00', '2024-01-23 18:00:00', 'shopping'),
         ('2024-01-23 10:10:00', '2024-01-23 10:40:00', 'exercise')
     ]
-    output_file = 'output_empatica.csv'
+    output_file = '\\files.times.uh.edu\Labs\Grigorenko\Wearables Data Analysis\P1 Processed Data Files\empatica\output_empatica.csv'
     
     extract_device_data(device, time_ranges, output_file)

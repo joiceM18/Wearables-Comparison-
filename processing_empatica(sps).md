@@ -8,8 +8,8 @@
     central_zone = pytz.timezone("US/Central")
 
 ## Load the CSV file
-    file_path = "/content/sps.csv"  # Update this to the path of your CSV file
-    data = pd.read_csv(\\files.times.uh.edu\Labs\Grigorenko\Wearables Data Analysis\New folder\New folder\Empatica systolic peaks)
+    file_path = "\\files.times.uh.edu\Labs\Grigorenko\Wearables Data Analysis\file paths for DA\Empatica systolic peaks\systolic_peaks.csv"  # Update this to the path of your CSV file
+    data = pd.read_csv(file_path)
 
 ## Convert systolic_peak_timestamp to numeric and drop invalid entries
     print(data['systolic_peak_timestamp'].dtype)
@@ -22,11 +22,6 @@
                      .astimezone(central_zone)
                      .strftime('%Y-%m-%d %H:%M:%S.%f')
     )
-
-## Save the processed file with readable datetimes -> outputs file "systolic_peak_processed"
-    output_path = "systolic_peak_processed.csv"  # Update this to your desired output path
-    data.to_csv(output_path, index=False)
-    print(data.head())
 
 ## Create a new column for minute-level grouping (US/Central)
     data['minute'] = data['systolic_peak_timestamp'].apply(
@@ -42,7 +37,7 @@
     data = data.merge(minute_counts, on='minute', how='left')
 
 ## Save the result to a new file
-    output_path = "systolic_peak_per_minute.csv"  # Update this to your desired output path
+    output_path = "\\files.times.uh.edu\Labs\Grigorenko\Wearables Data Analysis\P1 Processed Data Files\empatica\systolic_peak_per_minute.csv"  # Update this to your desired output path
     data.to_csv(output_path, index=False)
     print(minute_counts.head())
 

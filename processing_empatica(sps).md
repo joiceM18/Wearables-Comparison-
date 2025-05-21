@@ -9,7 +9,7 @@
 
 ## Load the CSV file
     file_path = "/content/sps.csv"  # Update this to the path of your CSV file
-    data = pd.read_csv(file_path)
+    data = pd.read_csv(\\files.times.uh.edu\Labs\Grigorenko\Wearables Data Analysis\New folder\New folder\Empatica systolic peaks)
 
 ## Convert systolic_peak_timestamp to numeric and drop invalid entries
     print(data['systolic_peak_timestamp'].dtype)

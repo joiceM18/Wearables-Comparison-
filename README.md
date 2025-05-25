@@ -13,6 +13,7 @@ there are a few files:
 3- empatica_script.py: takes in the entire processed csv file script that was created anf filters the actvities that participants have done, along wwith calculating mean, max and standard deviation per activity. 
 
 4- empatica_script.md: this is the exact same code as the .py file, just described.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ### Oura Ring:
 1- Oura_script.py:" includes a script that takes in the raw oura data in a csv file and filters the activity time slots, and also converts timestamps from UTC to central time, based on participant's location. we know that the timestamp in Oura was in UTC because the raw csv file entrees had 'Z' nect to the timestamp, and that is a clear indicator of the timezone. The script outputs the filtered csv file with activites, min bpm, max bpm, and stnadard deviation. 

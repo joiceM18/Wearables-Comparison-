@@ -6,13 +6,14 @@ This is the main repository for the Wearables Comparison data analysis study. In
 the raw data collected from empatica device came in unix time, it came in nano second entrees so some conversoin needed to be done for better readability
 there are a few files: 
 
-1- processing_Empatica: this is the file that took the raw data from empatica and converted the unix time stamp into central time zone, with 1 minute entrees. the script takes in the entrees in nano seconds and calulates the the avergae entrees for heartbeats per minute 
+1- empatica_process_script.py: this is the file that took the raw data from empatica and converted the unix time stamp into central time zone, with 1 minute entrees. the script takes in the entrees in nano seconds and calulates the the avergae entrees for heartbeats per minute 
 
--empatica_process_script: 
+2-processing_empatica.md: this file includes the same code from the .py script, just explained 
 
-2- empatica_script.py: takes in the entire processed csv file script that was created anf filters the actvities that participants have done, along wwith calculating mean, max and standard deviation per activity. 
+3- empatica_script.py: takes in the entire processed csv file script that was created anf filters the actvities that participants have done, along wwith calculating mean, max and standard deviation per activity. 
 
-3- empatica_script.md: this is the exact same code as the .py file, just described.
+4- empatica_script.md: this is the exact same code as the .py file, just described.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ### Oura Ring:
 1- Oura_script.py:" includes a script that takes in the raw oura data in a csv file and filters the activity time slots, and also converts timestamps from UTC to central time, based on participant's location. we know that the timestamp in Oura was in UTC because the raw csv file entrees had 'Z' nect to the timestamp, and that is a clear indicator of the timezone. The script outputs the filtered csv file with activites, min bpm, max bpm, and stnadard deviation. 
 

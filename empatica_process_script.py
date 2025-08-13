@@ -7,7 +7,7 @@ utc_zone = pytz.utc
 central_zone = pytz.timezone("US/Central")
 
 # Load the CSV file
-file_path = "/content/sps.csv"  # Update this to the path of your CSV file
+file_path = "//Volumes/Labs/Grigorenko/Wearables Data Analysis/P1 data/Empatica/master_data/systolic_peaks.csv"  # Update this to the path of your CSV file
 data = pd.read_csv(file_path)
 
 # Convert systolic_peak_timestamp to numeric and drop invalid entries
@@ -41,9 +41,9 @@ minute_counts = data.groupby('minute').size().reset_index(name='entry_count')
 data = data.merge(minute_counts, on='minute', how='left')
 
 # Save the result to a new file
-output_path = "systolic_peak_per_minute.csv"  # Update this to your desired output path
+output_path = "/Users/ccheek/Documents/joice_script_test/systolic_peak_per_minute.csv"  # Update this to your desired output path
 data.to_csv(output_path, index=False)
 print(minute_counts.head())
 
 # Save a simplified DataFrame with only 'minute' and 'entry_count' columns
-minute_counts.to_csv("systolic_peak_minute_counts.csv", index=False)
+minute_counts.to_csv("/Users/ccheek/Documents/joice_script_test/systolic_peak_minute_counts.csv", index=False)

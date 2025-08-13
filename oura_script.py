@@ -4,7 +4,7 @@ import pytz
 
 # Function to load dataset and standardize column name
 def extract_device_data(device_name, time_ranges, output_file):
-    oura_df = pd.read_csv('oura.csv', parse_dates=['timestamp'])
+    oura_df = pd.read_csv('/Volumes/Labs/Grigorenko/Wearables Data Analysis/P1 data/Oura/oura_heart-rate_2024-01-28T03-30-22.csv', parse_dates=['timestamp'])
 
     # Standardize column names
     oura_df.rename(columns={'timestamp': 'Timestamp'}, inplace=True)
@@ -62,7 +62,7 @@ import pytz
 
 # Function to load dataset and standardize column name
 def extract_device_data(device_name, time_ranges, output_file):
-    oura_df = pd.read_csv('oura.csv', parse_dates=['timestamp'])
+    oura_df = pd.read_csv('/Volumes/Labs/Grigorenko/Wearables Data Analysis/P1 data/Oura/oura_heart-rate_2024-01-28T03-30-22.csv', parse_dates=['timestamp'])
 
     # Standardize column names
     oura_df.rename(columns={'timestamp': 'Timestamp'}, inplace=True)
@@ -124,6 +124,6 @@ time_ranges = [
     ('2024-01-23 10:10:00', '2024-01-23 10:40:00', 'exercise')
 ]
 
-output_file = 'output.csv'
+output_file = '/Users/ccheek/Documents/joice_script_test/processed_oura_output.csv'
 
 extract_device_data(device, time_ranges, output_file)

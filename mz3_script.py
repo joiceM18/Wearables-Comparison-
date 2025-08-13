@@ -4,7 +4,7 @@ import pytz
 # Function to load dataset and standardize column name
 def extract_device_data(device_name, time_ranges, output_file):
     # Load the MZ3 CSV file
-    mz3_df = pd.read_csv('mz3.csv', parse_dates=['Time'])
+    mz3_df = pd.read_csv('/Volumes/Labs/Grigorenko/Wearables Data Analysis/P1 data/MZ3/Unbroken MYZONE activity.csv', parse_dates=['Time'])
 
     # Rename 'Time' column to 'Timestamp'
     mz3_df.rename(columns={'Time': 'Timestamp'}, inplace=True)
@@ -72,6 +72,6 @@ time_ranges = [
     ('2024-01-23 17:30:00', '2024-01-23 18:00:00', 'shopping'),
     ('2024-01-23 10:10:00', '2024-01-23 10:40:00', 'exercise')
 ]
-output_file = 'output_mz3.csv'
+output_file = '/Users/ccheek/Documents/joice_script_test/output_mz3.csv'
 
 extract_device_data(device, time_ranges, output_file)
